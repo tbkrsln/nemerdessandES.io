@@ -1,0 +1,791 @@
+/* Reset ve temel stiller */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    font-family: 'Comic Sans MS', 'Chalkboard SE', 'Marker Felt', cursive;
+    font-weight: 400;
+    line-height: 1.6;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+}
+
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+    color: #fff;
+    position: relative;
+    min-height: 100vh;
+    touch-action: manipulation;
+}
+
+/* Gradient animasyonu */
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Ekran yönetimi */
+.screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.screen.active {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Ana konteyner */
+.container {
+    text-align: center;
+    max-width: 800px;
+    width: 100%;
+    padding: 2rem;
+    z-index: 10;
+    margin: 0 auto;
+}
+
+/* Başlık konteyneri */
+.title-container {
+    margin-bottom: 3rem;
+}
+
+.main-title {
+    font-family: 'Comic Sans MS', 'Chalkboard SE', 'Marker Felt', cursive;
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 
+        3px 3px 6px rgba(0, 0, 0, 0.4),
+        0 0 15px rgba(255, 182, 193, 0.6),
+        0 0 25px rgba(255, 105, 180, 0.4);
+    margin-bottom: 1.5rem;
+    animation: titleGlow 3s ease-in-out infinite alternate;
+    letter-spacing: clamp(1px, 2vw, 3px);
+    background: linear-gradient(45deg, #ffb6c1, #ff69b4, #ff1493);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: titleGlow 3s ease-in-out infinite alternate, gradientShift 4s ease infinite;
+    word-wrap: break-word;
+    hyphens: auto;
+}
+
+@keyframes titleGlow {
+    from {
+        text-shadow: 
+            3px 3px 6px rgba(0, 0, 0, 0.4),
+            0 0 15px rgba(255, 182, 193, 0.6),
+            0 0 25px rgba(255, 105, 180, 0.4);
+        transform: scale(1);
+    }
+    to {
+        text-shadow: 
+            4px 4px 8px rgba(0, 0, 0, 0.5),
+            0 0 20px rgba(255, 182, 193, 0.8),
+            0 0 30px rgba(255, 105, 180, 0.6);
+        transform: scale(1.03);
+    }
+}
+
+.title-decoration {
+    font-size: clamp(2rem, 5vw, 4rem);
+    animation: bounce 2s infinite;
+    font-family: 'Comic Sans MS', 'Chalkboard SE', cursive;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    60% { transform: translateY(-5px); }
+}
+
+/* Seçenekler konteyneri */
+.options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+    width: 100%;
+}
+
+/* Yeni: Seçenekler grid */
+.options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    max-width: 600px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* Buton stilleri */
+.option-btn {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: clamp(1rem, 4vw, 1.5rem) clamp(2rem, 6vw, 3rem);
+    border: none;
+    border-radius: 50px;
+    font-size: clamp(1rem, 3.5vw, 1.2rem);
+    font-weight: 600;
+    font-family: 'Comic Sans MS', 'Chalkboard SE', 'Marker Felt', cursive;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    min-width: clamp(250px, 80vw, 300px);
+    max-width: 90vw;
+    justify-content: center;
+    letter-spacing: 0.5px;
+    line-height: 1.4;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.option-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.option-btn:hover::before,
+.option-btn:active::before {
+    left: 100%;
+}
+
+.primary-btn {
+    background: linear-gradient(135deg, #ff6b9d, #ff8e53);
+    color: white;
+    box-shadow: 0 8px 25px rgba(255, 107, 157, 0.4);
+}
+
+.primary-btn:hover,
+.primary-btn:active {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 15px 35px rgba(255, 107, 157, 0.6);
+}
+
+.secondary-btn {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+.secondary-btn:hover,
+.secondary-btn:active {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 15px 35px rgba(102, 126, 234, 0.6);
+}
+
+.special-btn {
+    background: linear-gradient(135deg, #ffd700, #ff6b9d);
+    animation: specialGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes specialGlow {
+    from {
+        box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+    }
+    to {
+        box-shadow: 0 15px 35px rgba(255, 215, 0, 0.8);
+    }
+}
+
+.btn-text {
+    font-weight: 600;
+    font-family: 'Comic Sans MS', 'Chalkboard SE', 'Marker Felt', cursive;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.btn-icon {
+    font-size: clamp(1.2rem, 4vw, 1.5rem);
+    flex-shrink: 0;
+}
+
+/* Hareketli buton */
+.moving-btn {
+    animation: moveButton 2s ease-in-out infinite;
+}
+
+@keyframes moveButton {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+}
+
+.moving-btn:hover,
+.moving-btn:active {
+    animation-play-state: paused;
+}
+
+/* Büyüyen buton */
+.growing-btn {
+    transition: all 0.5s ease;
+}
+
+.growing-btn:hover,
+.growing-btn:active {
+    transform: scale(1.1);
+}
+
+/* Arka plan kalpler */
+.background-hearts {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.heart {
+    position: absolute;
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    opacity: 0.3;
+    animation: floatHeart 8s linear infinite;
+}
+
+.heart:nth-child(1) { left: 10%; animation-delay: 0s; }
+.heart:nth-child(2) { left: 20%; animation-delay: 2s; }
+.heart:nth-child(3) { left: 70%; animation-delay: 4s; }
+.heart:nth-child(4) { left: 80%; animation-delay: 6s; }
+.heart:nth-child(5) { left: 50%; animation-delay: 1s; }
+
+@keyframes floatHeart {
+    0% {
+        top: 100vh;
+        opacity: 0;
+        transform: translateX(0) rotate(0deg);
+    }
+    10% {
+        opacity: 0.3;
+    }
+    90% {
+        opacity: 0.3;
+    }
+    100% {
+        top: -10vh;
+        opacity: 0;
+        transform: translateX(100px) rotate(360deg);
+    }
+}
+
+/* İkinci ekran stilleri */
+.love-gifs-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
+.gif-item {
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+    width: 100%;
+}
+
+.gif-item:hover {
+    transform: scale(1.05);
+}
+
+.gif-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+}
+
+.love-message {
+    font-family: 'Comic Sans MS', 'Chalkboard SE', 'Marker Felt', cursive;
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+    font-weight: 700;
+    color: #ffe4e1;
+    text-shadow: 
+        2px 2px 4px rgba(0, 0, 0, 0.3),
+        0 0 10px rgba(255, 182, 193, 0.4);
+    margin-bottom: 1rem;
+    line-height: 1.2;
+    letter-spacing: 1px;
+    word-wrap: break-word;
+    hyphens: auto;
+}
+
+.sub-message {
+    font-size: clamp(1.1rem, 3.5vw, 1.4rem);
+    color: #ffb6c1;
+    margin-bottom: 2rem;
+    font-style: italic;
+    font-family: 'Comic Sans MS', 'Chalkboard SE', cursive;
+    font-weight: 600;
+    line-height: 1.5;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.final-options {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+/* Üçüncü ekran stilleri */
+.question-text {
+    font-family: 'Comic Sans MS', 'Chalkboard SE', 'Marker Felt', cursive;
+    font-size: clamp(1.6rem, 4.5vw, 2.2rem);
+    font-weight: 700;
+    color: #ffe4e1;
+    text-shadow: 
+        2px 2px 4px rgba(0, 0, 0, 0.3),
+        0 0 10px rgba(255, 182, 193, 0.4);
+    margin-bottom: 2rem;
+    letter-spacing: 1px;
+    word-wrap: break-word;
+}
+
+/* Dördüncü ekran stilleri */
+.special-message {
+    margin-bottom: 2.5rem;
+}
+
+.hearts-rain {
+    margin: 2rem 0;
+    position: relative;
+    height: 100px;
+}
+
+.rain-heart {
+    position: absolute;
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    animation: rainFall 3s linear infinite;
+}
+
+.rain-heart:nth-child(1) { left: 10%; animation-delay: 0s; }
+.rain-heart:nth-child(2) { left: 20%; animation-delay: 0.5s; }
+.rain-heart:nth-child(3) { left: 30%; animation-delay: 1s; }
+.rain-heart:nth-child(4) { left: 40%; animation-delay: 1.5s; }
+.rain-heart:nth-child(5) { left: 50%; animation-delay: 2s; }
+.rain-heart:nth-child(6) { left: 60%; animation-delay: 2.5s; }
+.rain-heart:nth-child(7) { left: 70%; animation-delay: 3s; }
+.rain-heart:nth-child(8) { left: 80%; animation-delay: 3.5s; }
+
+@keyframes rainFall {
+    0% {
+        top: -50px;
+        opacity: 1;
+        transform: rotate(0deg);
+    }
+    100% {
+        top: 100px;
+        opacity: 0;
+        transform: rotate(360deg);
+    }
+}
+
+.marriage-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+    width: 100%;
+}
+
+/* Beşinci ekran stilleri */
+.proposal-container {
+    text-align: center;
+}
+
+.proposal-title {
+    font-family: 'Comic Sans MS', 'Chalkboard SE', 'Marker Felt', cursive;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 700;
+    color: #ffd700;
+    text-shadow: 
+        3px 3px 6px rgba(0, 0, 0, 0.4),
+        0 0 15px rgba(255, 215, 0, 0.5);
+    margin-bottom: 2rem;
+    animation: proposalGlow 2s ease-in-out infinite alternate;
+    letter-spacing: 2px;
+    word-wrap: break-word;
+}
+
+@keyframes proposalGlow {
+    from {
+        text-shadow: 
+            3px 3px 6px rgba(0, 0, 0, 0.4),
+            0 0 15px rgba(255, 215, 0, 0.5);
+    }
+    to {
+        text-shadow: 
+            4px 4px 8px rgba(0, 0, 0, 0.5),
+            0 0 20px rgba(255, 215, 0, 0.7);
+    }
+}
+
+.ring-animation {
+    margin: 2rem 0;
+}
+
+.ring {
+    font-size: clamp(3rem, 8vw, 5rem);
+    animation: ringBounce 2s ease-in-out infinite;
+}
+
+@keyframes ringBounce {
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    50% { transform: scale(1.2) rotate(180deg); }
+}
+
+.proposal-text {
+    font-size: clamp(1.3rem, 4vw, 1.6rem);
+    color: #ffe4e1;
+    margin-bottom: 2rem;
+    font-weight: 600;
+    font-family: 'Comic Sans MS', 'Chalkboard SE', cursive;
+    line-height: 1.5;
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.celebration-gifs {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+}
+
+.celebration-gifs img {
+    width: clamp(120px, 25vw, 150px);
+    height: clamp(120px, 25vw, 150px);
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    object-fit: cover;
+}
+
+.proposal-options {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+/* Loading overlay */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+
+.loading-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.loading-spinner {
+    text-align: center;
+    color: white;
+}
+
+.loading-spinner p {
+    font-family: 'Comic Sans MS', 'Chalkboard SE', cursive;
+    font-weight: 700;
+    font-size: clamp(1.1rem, 3.5vw, 1.3rem);
+    margin-top: 1rem;
+    letter-spacing: 1px;
+    color: #ffb6c1;
+}
+
+.spinner {
+    width: clamp(40px, 10vw, 50px);
+    height: clamp(40px, 10vw, 50px);
+    border: 4px solid rgba(255, 182, 193, 0.3);
+    border-top: 4px solid #ffb6c1;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive tasarım - Tablet */
+@media (max-width: 1024px) {
+    .container {
+        padding: 1.5rem;
+        max-width: 90vw;
+    }
+    
+    .options-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.2rem;
+    }
+    
+    .celebration-gifs {
+        gap: 1.2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+        max-width: 95vw;
+    }
+    
+    .title-container {
+        margin-bottom: 2rem;
+    }
+    
+    .options-container {
+        gap: 1.2rem;
+    }
+    
+    .options-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        max-width: 100%;
+    }
+    
+    .final-options {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+    
+    .love-gifs-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .celebration-gifs {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+    
+    .marriage-options {
+        gap: 1rem;
+    }
+    
+    .proposal-options {
+        gap: 1rem;
+    }
+    
+    .hearts-rain {
+        height: 80px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0.8rem;
+    }
+    
+    .title-container {
+        margin-bottom: 1.5rem;
+    }
+    
+    .option-btn {
+        min-width: 90vw;
+        max-width: 95vw;
+        padding: 1rem 1.5rem;
+    }
+    
+    .btn-text {
+        font-size: 0.9rem;
+    }
+    
+    .btn-icon {
+        font-size: 1.2rem;
+    }
+    
+    .hearts-rain {
+        height: 60px;
+    }
+    
+    .rain-heart {
+        font-size: 1.5rem;
+    }
+    
+    .background-hearts .heart {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .container {
+        padding: 0.5rem;
+    }
+    
+    .option-btn {
+        min-width: 95vw;
+        padding: 0.8rem 1.2rem;
+    }
+    
+    .btn-text {
+        font-size: 0.8rem;
+    }
+    
+    .btn-icon {
+        font-size: 1rem;
+    }
+}
+
+/* Landscape orientation için */
+@media (max-height: 500px) and (orientation: landscape) {
+    .container {
+        padding: 1rem;
+    }
+    
+    .title-container {
+        margin-bottom: 1rem;
+    }
+    
+    .main-title {
+        font-size: clamp(2.5rem, 6vh, 4rem);
+        margin-bottom: 0.5rem;
+    }
+    
+    .title-decoration {
+        font-size: clamp(1.5rem, 4vh, 2.5rem);
+    }
+    
+    .love-message {
+        font-size: clamp(1.5rem, 4vh, 2rem);
+        margin-bottom: 0.5rem;
+    }
+    
+    .sub-message {
+        font-size: clamp(1rem, 3vh, 1.2rem);
+        margin-bottom: 1rem;
+    }
+    
+    .options-container {
+        gap: 1rem;
+    }
+    
+    .option-btn {
+        padding: 0.8rem 1.5rem;
+        min-width: 200px;
+    }
+}
+
+/* Touch cihazlar için özel stiller */
+@media (hover: none) and (pointer: coarse) {
+    .option-btn:hover {
+        transform: none;
+    }
+    
+    .option-btn:active {
+        transform: scale(0.95);
+    }
+    
+    .growing-btn:active {
+        transform: scale(1.05);
+    }
+    
+    .moving-btn:active {
+        animation-play-state: paused;
+    }
+}
+
+/* High DPI ekranlar için */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .main-title {
+        text-shadow: 
+            2px 2px 4px rgba(0, 0, 0, 0.4),
+            0 0 10px rgba(255, 182, 193, 0.6),
+            0 0 15px rgba(255, 105, 180, 0.4);
+    }
+    
+    .love-message,
+    .question-text {
+        text-shadow: 
+            1px 1px 2px rgba(0, 0, 0, 0.3),
+            0 0 5px rgba(255, 182, 193, 0.4);
+    }
+}
+
+/* Özel animasyonlar */
+.animate__delay-1s {
+    animation-delay: 1s !important;
+}
+
+.animate__delay-2s {
+    animation-delay: 2s !important;
+}
+
+/* Hover efektleri */
+.option-btn:active {
+    transform: scale(0.95);
+}
+
+/* Smooth scroll */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Focus stilleri */
+.option-btn:focus {
+    outline: 3px solid rgba(255, 182, 193, 0.5);
+    outline-offset: 2px;
+}
+
+/* Selection stilleri */
+::selection {
+    background: rgba(255, 182, 193, 0.3);
+    color: white;
+}
+
+::-moz-selection {
+    background: rgba(255, 182, 193, 0.3);
+    color: white;
+}
